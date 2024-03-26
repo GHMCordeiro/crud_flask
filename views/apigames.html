@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
-{% block content %}
-<!-- {{gamesjson}} -->
 
-<div class="container" style="background-color: #f0f0f0; border-radius: 8px;">
+{% block content %}
+
+<div class="container">
     <div class="row">
+        <div class="col d-flex">
+            <form action="{{url_for('search')}}" method="post">
+                <input type="text" name="game" id="" class="form-control">
+                <input type="submit" value="Pesquisar" class="btn btn-primary">
+            </form>
+
+        </div>
+    </div>
+    <div class="row justify-content-around">
         {% for g in gamesjson %}
         <div class="col-md-3 m-auto">
-            <div class="card" style="width: 16rem;">
-                <img src="{{g.thumbnail}}" alt='Miniatura do jogo'>
+            <div class="card">
+                <img src="{{g.thumbnail}}" alt="{{g.title}}">
                 <div class="card-body">
                     <h5>{{g.title}}</h5>
                     <p>{{g.genre}}</p>

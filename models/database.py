@@ -1,9 +1,9 @@
-# Importando o SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
-# Carregando o SQLAlchemy na variável DB
+
+## Carrega o SQLAlchemy ##
 db = SQLAlchemy()
 
-# Classe responsável por criar a entidade "Games" com seus atributos
+## Classe responsável por criar a entidade Games com seus atributos ##
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(150))
@@ -12,7 +12,7 @@ class Game(db.Model):
     plataforma = db.Column(db.String(150))
     preco = db.Column(db.Float)
     quantidade = db.Column(db.Integer)
-    
+
     def __init__(self, titulo, ano, categoria, plataforma, preco, quantidade):
         self.titulo = titulo
         self.ano = ano
@@ -20,4 +20,3 @@ class Game(db.Model):
         self.plataforma = plataforma
         self.preco = preco
         self.quantidade = quantidade
-    

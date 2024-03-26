@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-around">
+        <div class="col-md-4 m-auto">
+            <a href="{{url_for('apigames')}}" class="btn btn-dark">
+                << Todos os jogos</a><br>
+                    <div class="card">
+                        <img src="{{gsearch.thumbnail}}" alt="{{g.title}}">
+                        <div class="card-body">
+                            <h5 class="text-center">{{gsearch.title}}</h5>
+                            <p><span class="fw-bold">Gênero:</span> {{gsearch.genre}}</p>
+                            <p><span class="fw-bold">Descrição:</span>{{gsearch.short_description}}</p>
+                            <p><span class="fw-bold">Plataforma:</span> {{gsearch.platform}}</p>
+                            <p><span class="fw-bold">Editora:</span> {{gsearch.publisher}}</p>
+                            <p><span class="fw-bold">Data de lançamento:</span> {{gsearch.release_date}}</p>
+                            <div class="text-center">
+                                <a href="{{gsearch.freetogame_profile_url}}"
+                                    class="btn btn-danger">Jogar</a>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

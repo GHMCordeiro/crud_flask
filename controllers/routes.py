@@ -42,37 +42,59 @@ def init_app(app):
         res = urllib.request.urlopen(url)
         data = res.read()
         gamesjson = json.loads(data)
-        
+
         if id:
             ginfo = []
             for g in gamesjson:
                 if g['id'] == id:
                     ginfo = g
-                    break
             if ginfo:
                 return render_template('gamesinfo.html', ginfo=ginfo)
             else:
-                return f'Game com a ID {id} não foi encontrado.'
-        else:                       
-            return render_template('apigames.html', gamesjson=gamesjson)
+                return f'O Game com a ID {id} não foi encontrado!'
+        else:
+            return render_template('apigames.html', gamesjson=gamesjson)  
+
+    @app.route('/search', methods=['GET', 'POST'])  
+    def search():
+        url = 'https://www.freetogame.com/api/games'
+        res = urllib.request.urlopen(url)
+        data = res.read()
+        gamesjson = json.loads(data)
+
+        if request.method == 'POST':
+            if request.form.get('game'):
+                game = request.form.get('game')
+                gsearch = []
+                for g in gamesjson:
+                    if g['title'] == game:
+                        gsearch = g
+                
+                if gsearch:
+                    print(gsearch)
+                    return render_template('search.html', gsearch = gsearch)
+                else:
+                    return "Nao foi encontrado"
     
-    # CRUD - Listagem de dados
+
+    ## CRUD - Listagem de dados
+    
     @app.route('/estoque', methods=['GET', 'POST'])
-    @app.route('/estoque/delete/<int:id>')
+    @app.route('/estoque/<int:id>')
     def estoque(id=None):
-        # Excluindo um jogo
+        ## Excluindo um jogo
         if id:
             game = Game.query.get(id)
             db.session.delete(game)
             db.session.commit()
             return redirect(url_for('estoque'))
-        # Cadastrando um novo jogo
+
         if request.method == 'POST':
             newgame = Game(request.form['titulo'], request.form['ano'], request.form['categoria'], request.form['plataforma'], request.form['preco'], request.form['quantidade'])
             db.session.add(newgame)
             db.session.commit()
             return redirect(url_for('estoque'))
         else:
-            # Armazenando em "gamesestoque" todos os registros da tabela Game.
             gamesestoque = Game.query.all()
-            return render_template('estoque.html', gamesestoque=gamesestoque)
+            return render_template('estoque.html', gamesestoque = gamesestoque)
+                    
