@@ -80,7 +80,7 @@ def init_app(app):
     ## CRUD - Listagem de dados
     
     @app.route('/estoque', methods=['GET', 'POST'])
-    @app.route('/estoque/<int:id>')
+    @app.route('/estoque/delete/<int:id>')
     def estoque(id=None):
         ## Excluindo um jogo
         if id:
@@ -95,6 +95,24 @@ def init_app(app):
             db.session.commit()
             return redirect(url_for('estoque'))
         else:
-            gamesestoque = Game.query.all()
-            return render_template('estoque.html', gamesestoque = gamesestoque)
-                    
+            page = request.args.get('page', 1, type=int)
+            per_page = 3
+            games_page = Game.query.paginate(page=page, per_page=per_page)
+            return render_template('estoque.html', gamesestoque = games_page)
+
+    @app.route('/edit/<int:id>', methods=['GET', 'POST'])
+    def edit(id):
+        g = Game.query.get(id)
+
+        if request.method == 'POST':
+            g.titulo = request.form['titulo']
+            g.ano = request.form['ano']
+            g.categoria = request.form['categoria']
+            g.plataforma = request.form['plataforma']
+            g.preco = request.form['preco']
+            g.quantidade = request.form['quantidade']
+            db.session.commit()
+            return redirect(url_for('estoque'))
+
+        return render_template('editgame.html', g=g)
+        

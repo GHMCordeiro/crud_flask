@@ -40,16 +40,16 @@
                 </tr>
             </thead>
             <tbody>
-                {% for g in gamesestoque %}
+                {% for g in gamesestoque.items %}
                 <tr class="text-center">
                     <td class="border-end border-start">{{g.titulo}}</td>
                     <td class="border-end">{{g.ano}}</td>
                     <td class="border-end">{{g.categoria}}</td>
                     <td class="border-end">{{g.plataforma}}</td>
-                    <td class="border-end">{{g.preco}}</td>
+                    <td class="border-end">R$ {{g.preco}}</td>
                     <td class="border-end">{{g.quantidade}}</td>
                     <td class="border-end text-success" >
-                        <a href="#" class="text-success" style="cursor: pointer; text-decoration: none;">Editar</a>
+                        <a href="{{url_for('edit', id=g.id)}}" class="text-warning" style="cursor: pointer; text-decoration: none;">Editar</a>
                     </td>
                     <td class="border-end" >
                         <a href="{{url_for('estoque', id=g.id)}}" onclick="return confirm('Deseja excluir mesmo?')" style="cursor: pointer; text-decoration: none;" class="text-danger">Excluir</a>
@@ -57,8 +57,22 @@
                 </tr>
                 {% endfor%}
             </tbody>
-
         </table>
+        <p class="text-center d-flex align-items-center justify-content-center">
+            {% if gamesestoque.has_prev %}
+            <a href="{{url_for('estoque', page=gamesestoque.prev_num)}}" class="text-dark">
+                <i class="bi bi-caret-left-fill"></i>
+                Anterior
+            </a>
+            {% endif %}
+
+            {% if gamesestoque.has_next %}
+            <a href="{{url_for('estoque', page=gamesestoque.next_num)}}" class="text-dark ms-4">
+                Próximo
+                <i class="bi bi-caret-right-fill"></i>
+            </a>
+            {% endif %}
+        </p>
     </div>
 </div>
 {% endblock content %}
