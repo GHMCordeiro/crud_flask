@@ -20,3 +20,14 @@ class Game(db.Model):
         self.plataforma = plataforma
         self.preco = preco
         self.quantidade = quantidade
+
+## Classe responsável por criar a entidade Usuário no banco
+        
+class Usuario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, email, password):
+        self.email = email
+        self.password = password

@@ -1,4 +1,4 @@
-# Importando o Flask na aplicação
+    # Importando o Flask na aplicação
 from flask import Flask, render_template
 from controllers import routes
 import os
@@ -15,6 +15,11 @@ dir = os.path.abspath(os.path.dirname(__file__))
 
 # Passando o diretório para o SQLAlchemy #
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(dir, 'models/games.sqlite3')
+
+# Definindo a secret_key para as flash messages
+app.config['SECRET_KEY'] = 'thegamessecret'
+
+app.config['PERMANENT_SESSION_LIFETIME'] = 1800
 
 # Se for executado diretamente pelo interpretador (arquivo principal)
 if __name__ == '__main__': 

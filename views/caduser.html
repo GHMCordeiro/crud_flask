@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{category}}">
+            {{message}}
+        </div>
+    {% endfor %}
+{% endwith %}
+
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>Cadastro de Usuário</h2>
+        </div>
+
+        <div class="card-body">
+            <form action="{{url_for('caduser')}}" method="POST">
+                <label for="" class="form-label">E-mail:</label>
+                <input type="email" name="email" id="" class="form-control" placeholder="email@exemplo.com" required>
+                <label for="" class="form-label">Senha:</label>
+                <input type="password" name="password" id="" class="form-control" placeholder="Digite sua senha"
+                    required>
+                <button type="submit" class="btn btn-danger form-control mt-2">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

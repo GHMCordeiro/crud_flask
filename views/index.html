@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{category}}">
+            {{message}}
+        </div>
+    {% endfor %}
+{% endwith %}
+
+
 <h1>Esta é a homepage!</h1>
 <hr>
 <img class="img-thumbnail" src="{{url_for('static', filename='imgs/thumb.jpg')}}" {% endblock content %}
