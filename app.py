@@ -19,7 +19,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(dir, 'models
 # Definindo a secret_key para as flash messages
 app.config['SECRET_KEY'] = 'thegamessecret'
 
+# Define o tempo da sessão
 app.config['PERMANENT_SESSION_LIFETIME'] = 1800
+
+# Define a pasta uploads
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
+# Define o tamanho mazximo de um arquivo de upload
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Se for executado diretamente pelo interpretador (arquivo principal)
 if __name__ == '__main__': 

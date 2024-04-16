@@ -1,9 +1,11 @@
 from flask import render_template, request, url_for, redirect, flash, session
 from markupsafe import Markup
-from models.database import db, Game, Usuario
+from models.database import db, Game, Usuario, Imagem
 from werkzeug.security import generate_password_hash, check_password_hash
 import urllib
 import json
+import uuid
+import os
 
 jogadores = []
 jogos = []
@@ -188,4 +190,36 @@ def init_app(app):
 
         return render_template('editgame.html', g=g)
     
+    ## Definindo tipos de arquivos permitidos
+    FILE_TYPES = set(['png', 'jpeg', 'jpg', 'gif'])
+    def arquivos_permitidos(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in FILE_TYPES
     
+    ## Rota para galeria
+    @app.route('/galeria', methods=['GET', 'POST'])
+    def galeria():
+
+        imagens = Imagem.query.all()
+
+        if request.method == 'POST':
+            ## Pega o arquivo
+            file = request.files['file']
+
+            ## Verifica se o arquivo é permitido
+            if not arquivos_permitidos(file.filename):
+                flash("Arquivo inválido! Utilize os tipos de arquivos permitidos (jpg, jpeg, png, gif)", "danger")
+                return redirect(request.url)
+            
+            ## Define um nome aleatorio
+            filename = str(uuid.uuid4())
+
+            img = Imagem(filename)
+            db.session.add(img)
+            db.session.commit()
+
+            ## Salva o arquivo na pasta de uploads
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            flash("Imagem enviada com sucesso!", "success")
+
+        return render_template('galeria.html', imagens=imagens)
